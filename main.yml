@@ -1,0 +1,21 @@
+---
+- hosts: r1
+  connection: network_cli
+  gather_facts: no 
+
+  tasks:
+  - name: Menambahkan IP Address Ether2
+    routeros_command:
+      commands: /ip address add address=192.168.10.1/24 interface=ether2
+  - name: Menambahkan IP Address Ether3
+    routeros_command:
+      commands: /ip address add address=192.168.20.1/24 interface=ether3
+  - name: Set DNS Server 
+    routeros_command:
+      commands: /ip dns set servers=8.8.8.8
+  - name: Set allow remote request pada dns
+    routeros_command:
+      commands: /ip dns set allow-remote-request=yes
+  - name: Set NAT Firewall Mikrotik
+    routeros_command:
+      commands: /ip firewall nat add chain=srcnat out-interface=ether1 action=masquerade`
